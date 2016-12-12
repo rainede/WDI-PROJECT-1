@@ -17,6 +17,8 @@ ul {
 }
 
 li {
+   border-radius:50%;
+   background: #000;
   list-style-type: none;
   float: left;
   border: 1px solid #000;
@@ -26,8 +28,14 @@ li {
 
 .mole {
   background: url("http://www.clker.com/cliparts/G/1/i/k/N/j/rat.svg") no-repeat;
-  background-size: 100% 100%;
+  background-size: 50%;
+  bottom: 0px;
   z-index:2;
+   transition:all 0.3s ease;
+}
+
+.mole.up{
+  top: 0px;
 }
 
 .scores{

@@ -20,7 +20,7 @@ Game.gridBase       = 4;
 Game.sequenceLength = 4;
 Game.pause          = 1000;
 Game.width          = 400;
-Game.activeClass    = 'mole';
+Game.activeClass    = 'mole mole.up';
 
 Game.setupGame = function() {
   var body = document.getElementsByTagName('main')[0];
@@ -70,14 +70,16 @@ Game.runSequence = function() {
 };
 
 Game.turnOnSquare = function(square){
-  square.classList.add(Game.activeClass);
+  $(square).addClass(Game.activeClass)
+  // square.classList.add(Game.activeClass);
   setTimeout(function(){
     Game.turnOffSquare(square);
   }, (Game.pause/2));
 };
 
 Game.turnOffSquare = function(square) {
-  square.classList.remove(Game.activeClass);
+  // square.classList.remove(Game.activeClass);
+    $(square).removeClass(Game.activeClass)
 };
 
 Game.prepareForGuess = function(){
