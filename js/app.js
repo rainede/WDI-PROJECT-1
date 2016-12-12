@@ -21,12 +21,25 @@ Game.sequenceLength = 4;
 Game.pause          = 1000;
 Game.width          = 400;
 Game.activeClass    = 'mole mole.up';
+Game.levels   = 1;
+
 
 Game.setupGame = function() {
+
+Game.inProgress =true;
   var body = document.getElementsByTagName('main')[0];
+
   // Clear body
   body.innerHTML = '';
 
+
+    //Create the player scores
+  const player1 = document.createElement('h1');
+   player1.innerHTML = 'Player 1 score:';
+    body.appendChild( player1);
+    const player2 = document.createElement('h1');
+    player2.innerHTML = 'Player 2 score:';
+     body.appendChild( player2);
   // Create the grid
   var grid = document.createElement('ul');
   body.appendChild(grid);
@@ -38,9 +51,10 @@ Game.setupGame = function() {
   }
 
   // Create the start button
-  var start = document.createElement('button');
-  start.innerHTML = 'Play';
-  body.appendChild(start);
+//  var start = document.createElement('button');
+//  start.innerHTML = 'Play';
+  //body.appendChild(start);
+  var start =document.getElementById('play');
   start.addEventListener('click', Game.chooseSequence);
 };
 
@@ -98,6 +112,7 @@ Game.prepareForGuess = function(){
 
 Game.checkForWin = function(){
   var result = Game.guess.sort().toString() === Game.sequence.sort().toString();
+  Game.inProgress =false;
   if (result) {
     alert('Win');
   } else {

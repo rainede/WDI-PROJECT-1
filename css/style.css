@@ -3,12 +3,13 @@ body {
 }
 
 main {
-
+  background: purple;
+  	
 }
 
 
 ul {
-  background: purple;
+
   margin: 0 auto;
   padding: 0;
   width: 400px;
@@ -24,18 +25,18 @@ li {
   border: 1px solid #000;
   box-sizing: border-box;
   z-index:1;
+
 }
 
 .mole {
   background: url("http://www.clker.com/cliparts/G/1/i/k/N/j/rat.svg") no-repeat;
   background-size: 50%;
-  bottom: 0px;
   z-index:2;
-   transition:all 0.3s ease;
 }
 
 .mole.up{
-  top: 0px;
+
+
 }
 
 .scores{
