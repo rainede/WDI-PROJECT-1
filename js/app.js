@@ -1,3 +1,17 @@
+/*
+
+  STILL INCOMPLETE... but it's a start.
+
+  - Make a grid
+  - Make a sequence of a certain length
+  - Light up the squares
+  - Record user input
+  - Check sequence against user input
+  - Display result
+  - Start again with a harder sequence
+
+*/
+
 var Game = Game || {};
 
 Game.setupGame = function() {
@@ -11,7 +25,10 @@ Game.setupGame = function() {
   this.lives          = document.getElementsByClassName('lives')[0];
   this.header         = document.getElementsByTagName('header')[0];
   this.main           = document.getElementsByTagName('main')[0];
-
+  this.timeSpent      = document.getElementsByClassName('time');
+  this.gameOver       = document.createElement('div');
+  this.gameOver.setAttribute('class', 'gameover');
+  this.main.appendChild(Game.gameOver);
   this.message           = document.createElement('h2');
   this.message.innerHTML = 'Get ready to play!';
 
@@ -98,6 +115,7 @@ Game.selectSquare = function selectSquare() {
 };
 
 Game.clearSquares = function clearSquare() {
+  this.timeSpent = parseInt(this.timeSpent)+this.interval;
   clearInterval(this.interval);
 
   var id = setTimeout(function() {}, 0);
