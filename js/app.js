@@ -1,17 +1,3 @@
-/*
-
-  STILL INCOMPLETE... but it's a start.
-
-  - Make a grid
-  - Make a sequence of a certain length
-  - Light up the squares
-  - Record user input
-  - Check sequence against user input
-  - Display result
-  - Start again with a harder sequence
-
-*/
-
 var Game = Game || {};
 
 Game.setupGame = function() {
