@@ -1,166 +1,112 @@
-/*
-
-  STILL INCOMPLETE... but it's a start.
-
-  - Make a grid
-  - Make a sequence of a certain length
-  - Light up the squares
-  - Record user input
-  - Check sequence against user input
-  - Display result
-  - Start again with a harder sequence
-
-*/
-
 var Game = Game || {};
 
-Game.sequence       = [];
-Game.guess          = [];
-Game.gridBase       = 2;
-Game.sequenceLength = 2;
-Game.pause          = 1000;
-Game.width          = 400;
-Game.activeClass    = 'mole mole.up';
-Game.levels   = 1;
-Game.plays =0;
-Game.lastHole;
-Game.timeUp = false;
-Game.score = 0;
-Game.scoreCat = 0;
-Game.scoreMouse = 0;
-
-
 Game.setupGame = function() {
-  var gameView= document.getElementsByTagName('main')[0];
-  var turn = document.createElement('h2');
+  this.width          = 400;
+  this.gridBase       = 4;
+  this.pause          = 500;
+  this.turnCount      = 0;
+  this.level          = 2;
 
-  Game.inProgress =true;
-  // Clear body
-  gameView.innerHTML = '';
+  this.score          = document.getElementsByClassName('score')[0];
+  this.lives          = document.getElementsByClassName('lives')[0];
+  this.header         = document.getElementsByTagName('header')[0];
+  this.main           = document.getElementsByTagName('main')[0];
 
+  this.message           = document.createElement('h2');
+  this.message.innerHTML = 'Get ready to play!';
 
-  // turn.innerHTML ='Whack the' + (Game.plays%2 === 0) ? 'Whack the Cat' : 'Whack the Mouse';
+  this.header.appendChild(this.message);
+  this.createGrid();
+  this.startButton = document.getElementById('play');
+  this.startButton.addEventListener('click', this.play.bind(this));
+};
 
-  var grid = document.createElement('ul');
-  gameView.appendChild(grid);
+Game.createGrid = function createGrid() {
+  this.main.innerHTML = '';
+  this.grid           = document.createElement('ul');
+  this.grid.setAttribute('class', 'board');
+  this.main.appendChild(this.grid);
   for (var i = 0; i < this.gridBase*this.gridBase; i++) {
-    var square = document.createElement('li');
-    square.style.top =randomNumber(this.top, this.top+ this.height);
-      square.style.left =randomNumber(this.left, this.left+ this.width);
-    square.style.width  = this.width / this.gridBase + 'px';
-    square.style.height = this.width / this.gridBase + 'px';
-    grid.appendChild(square);
+    var square              = document.createElement('li');
+    var width               = this.width / this.gridBase;
+    square.style.width      = width + 'px';
+    square.style.height     = width + 'px';
+    square.style.lineHeight = width + 'px';
+    square.style.fontSize   = (width/100)*60 + 'px';
+    square.setAttribute('class', 'square');
+    square.addEventListener('click', this.selectSquare);
+    this.grid.appendChild(square);
   }
-
-  // Create the start button
-//  var start = document.createElement('button');
-//  start.innerHTML = 'Play';
-  //body.appendChild(start);
-  var start =document.getElementById('play');
-  start.addEventListener('click', Game.chooseSequence);
-
-
+  this.squares = document.getElementsByClassName('square');
 };
 
+Game.play = function play() {
+  this.displayInstructions();
+  setInterval(this.runSequence.bind(this), 500);
+};
 
-Game.chooseSequence = function() {
-  //random sequence
-  for (var i = 0; i < Game.sequenceLength; i++) {
-    Game.sequence.push(Game.randomSequenceNumber());
+Game.displayInstructions = function displayInstructions() {
+  this.message.innerHTML = 'Choose all of the numbers divisible by ' + this.level;
+};
+
+Game.randomNumber = function randomNumber() {
+  if (this.getRandomInt(0, 3) % 3 === 0) {
+    return this.getRandomInt(1, 10) * this.level;
+  } else {
+    return this.getRandomInt(1, 10) * this.getRandomInt(1, 10);
   }
-  console.log(Game.sequence);
-  Game.runSequence();
 };
 
-Game.randomSequenceNumber = function() {
-//  return randomNumber(0, (Game.gridBase * Game.gridBase) -1)
-  return Math.round(Math.random() * ((Game.gridBase * Game.gridBase) -1));
+Game.getRandomInt = function getRandomInt(min, max) {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
 };
-
-function randomNumber(min, max){
-  return Math.round(Math.random() * (max - min) + min);
-}
-
 
 Game.runSequence = function() {
-  var squares = document.getElementsByTagName('li');
-  var square;
-  for (var i = 0; i < Game.sequence.length; i++) {
-    // Must pass in the value of i
-    setTimeout(function(i){
-      square = squares[Game.sequence[i]];
-      console.log(i, square);
-      Game.turnOnSquare(square);
-    }, (i)*Game.pause, i);
-  }
-  Game.prepareForGuess();
-};
+  var sequenceNumber = this.getRandomInt(0, (this.gridBase*this.gridBase-1));
+  var square         = this.squares[sequenceNumber];
 
-Game.turnOnSquare = function(square){
-  $(square).addClass(Game.activeClass);
-  // square.classList.add(Game.activeClass);
+  if (square.innerHTML !== '') return this.runSequence();
+
   setTimeout(function(){
-      // square.classList.remove(Game.activeClass);
-        $(square).removeClass(Game.activeClass);
-  }, (Game.pause/2));
+    Game.showSquare(square);
+  }, this.pause * this.getRandomInt(1, 5));
 };
 
-
-Game.prepareForGuess = function(){
-  var squares = document.getElementsByTagName('li');
-  squares = [].slice.call(squares);
-  for (var i = 0; i < (Game.gridBase * Game.gridBase); i++) {
-    squares[i].addEventListener('click', function(e){
-      Game.guess.push(squares.indexOf(e.target));
-    //  console.log(Game.guess);
-
-          Game.score =
-                (Game.plays%2 === 0) ? Game.scoreCat++:  Game.scoreMouse++;
-                      console.table(Game);
-      if (Game.guess.length === Game.sequenceLength) {
-        Game.checkForWin();
-      }
-    });
-  }
+Game.showSquare = function showSquare(square){
+  square.innerHTML = this.randomNumber();
+  setTimeout(function(){
+    square.innerHTML = '';
+  }, this.pause * this.getRandomInt(1, 5));
 };
 
-
-
-Game.checkForWin = function(){
-  var result = Game.guess.sort().toString() === Game.sequence.sort().toString();
-  Game.inProgress =false;
-  Game.plays++;
-  if (result) {
-    alert('Win');
+Game.selectSquare = function selectSquare() {
+  if (this.innerHTML % Game.level === 0) {
+    Game.score.innerHTML = parseInt(Game.score.innerHTML) + 1;
   } else {
-    alert('Lose');
+    Game.lives.innerHTML = parseInt(Game.lives.innerHTML) - 1;
+  }
+
+  if (parseInt(Game.lives.innerHTML) === 0) {
+    Game.message.innerHTML = 'GAME OVER';
+    Game.clearSquares();
+  }
+
+  if (parseInt(Game.score.innerHTML) % 10 === 0) {
+    Game.level++;
+    Game.displayInstructions();
   }
 };
 
-Game.start = function() {
-  this.setupGame();
+Game.clearSquares = function clearSquare() {
+  clearInterval(this.interval);
+
+  var id = setTimeout(function() {}, 0);
+  while (id--) {
+    clearTimeout(id);
+  }
+  for (var i = 0; i < this.squares.length; i++) {
+    this.squares[i].innerHTML = '';
+  }
 };
 
-document.addEventListener('DOMContentLoaded', Game.start.bind(Game));
-
-
-
-// function peep() {
-//   const time = randomNumber(200, 1000);
-//   const hole = randomHole(holes);
-//   hole.classList.add('up');
-//   setTimeout(() => {
-//     hole.classList.remove('up');
-//     if (!timeUp) peep();
-//   }, time);
-// }
-//
-// function molePopUp() {
-//   var time = randomNumber(200, 1000);
-//   const hole = randomHole(holes);
-//   hole.classList.add('up');
-//   setTimeout(() => {
-//     hole.classList.remove('up');
-//     if (!timeUp) peep();
-//   }, time);
-// }
+document.addEventListener('DOMContentLoaded', Game.setupGame.bind(Game));
