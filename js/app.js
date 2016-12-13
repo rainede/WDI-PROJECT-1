@@ -93,13 +93,16 @@ Game.showSquare = function showSquare(square){
   square.innerHTML = this.randomNumber();
   setTimeout(function(){
     square.innerHTML = '';
+    square.style.color = 'white';
   }, this.pause * this.getRandomInt(1, 5));
 };
 
 Game.selectSquare = function selectSquare() {
   if (this.innerHTML % Game.level === 0) {
+    this.style.color = 'green';
     Game.score.innerHTML = parseInt(Game.score.innerHTML) + 1;
   } else {
+    this.style.color = 'red';
     Game.lives.innerHTML = parseInt(Game.lives.innerHTML) - 1;
   }
 
