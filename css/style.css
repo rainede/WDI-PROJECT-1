@@ -1,24 +1,31 @@
 body {
   text-align: center;
+  margin: 0 auto;
+  text-align: center;
+  font-family: 'Holtwood One SC', serif;
 }
 
 main {
-  background: purple;
-  	
+  background: url(http://gallery.yopriceville.com/var/albums/Free-Clipart-Pictures/Cartoons-PNG/Tom_and_Jerry_Free_PNG_Clip_Art_Image.png?m=1447961995) no-repeat;
+  background-size:cover;
+  height: 800px;
+  cursor:
+    url('http://pocketmonsters.me/wp-content/uploads/pokeball.png'), auto;
 }
 
 
 ul {
 
+
   margin: 0 auto;
   padding: 0;
   width: 400px;
   height: 400px;
-  border: 1px solid #000;
+  /*border: 1px solid #000;*/
 }
 
 li {
-   border-radius:50%;
+   border-radius:60%;
    background: #000;
   list-style-type: none;
   float: left;
@@ -27,6 +34,48 @@ li {
   z-index:1;
 
 }
+h2 {
+  animation-duration: 3s;
+  animation-name: slidein;
+}
+
+@keyframes slidein {
+  from {
+    margin-left: 100%;
+    width: 300%;
+  }
+
+  to {
+    margin-left: 0%;
+    width: 100%;
+  }
+}
+h2 {
+  background: #0b3a52;
+  border: 3px solid #0b3b51;
+  width: 250px;
+  margin: 10px auto;
+  color: #fff;
+}
+.cat { color: #6B6570; auto;}
+  /*#A0ACAD}*/
+  /**/
+.mouse { color: #ffad60; }
+.cat, .mouse {
+  font-size: 64px;
+  position: relative;
+  top: 20px;
+}
+
+
+
+@keyframes popup {
+  50% {
+    top: 25%;
+  }
+}
+
+
 
 .mole {
   background: url("http://www.clker.com/cliparts/G/1/i/k/N/j/rat.svg") no-repeat;
@@ -35,7 +84,7 @@ li {
 }
 
 .mole.up{
-
+top: 0;
 
 }
 
