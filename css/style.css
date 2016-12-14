@@ -17,7 +17,7 @@ ul {
 
 li {
   display: inline-block;
-  font-family: "Homemade Apple";
+  font-family: "Homemade Apple", cursive;
   cursor: pointer;
 }
 
