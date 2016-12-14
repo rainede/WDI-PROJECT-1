@@ -1,8 +1,10 @@
 var Game = Game || {};
 
+
 Game.setupGame = function() {
   this.width          = 400;
   this.gridBase       = 4;
+  // this.pause          = 500;
   this.pause          = 500;
   this.turnCount      = 0;
   this.level          = 2;
@@ -12,9 +14,7 @@ Game.setupGame = function() {
   this.header         = document.getElementsByTagName('header')[0];
   this.main           = document.getElementsByTagName('main')[0];
   this.timeSpent      = document.getElementsByClassName('time');
-  this.gameOver       = document.createElement('div');
-  this.gameOver.setAttribute('class', 'gameover');
-  this.main.appendChild(Game.gameOver);
+
   this.message           = document.createElement('h2');
   this.message.innerHTML = 'Get ready to play!';
 
@@ -25,17 +25,26 @@ Game.setupGame = function() {
 };
 
 Game.createGrid = function createGrid() {
+  var square;
+  var width;
+  var i;
+  var units='px';
   this.main.innerHTML = '';
+  // this.gameOver       = document.createElement('div');
+  // this.gameOver.setAttribute('class', 'gameover');
   this.grid           = document.createElement('ul');
   this.grid.setAttribute('class', 'board');
+
+  // this.main.appendChild(this.gameOver);
   this.main.appendChild(this.grid);
-  for (var i = 0; i < this.gridBase*this.gridBase; i++) {
-    var square              = document.createElement('li');
-    var width               = this.width / this.gridBase;
-    square.style.width      = width + 'px';
-    square.style.height     = width + 'px';
-    square.style.lineHeight = width + 'px';
-    square.style.fontSize   = (width/100)*60 + 'px';
+  for (i = 0; i < this.gridBase*this.gridBase; i++) {
+    square              = document.createElement('li');
+    width               = this.width / this.gridBase;
+    console.log(units);
+    square.style.width      = width + units;
+    square.style.height     = width + units;
+    square.style.lineHeight = width + units;
+    square.style.fontSize   = (width/100)*60 + units;
     square.setAttribute('class', 'square');
     square.addEventListener('click', this.selectSquare);
     this.grid.appendChild(square);
@@ -49,7 +58,8 @@ Game.play = function play() {
 };
 
 Game.displayInstructions = function displayInstructions() {
-  this.message.innerHTML = 'Choose all of the numbers divisible by ' + this.level;
+  this.message.innerHTML = parseInt(this.level-1)+'. ' +'Choose all of the numbers divisible by ' + this.level;
+  // this.message.innerHTML += 'Level' + parseInt(this.level-1) +'Choose all of the numbers divisible by ' + this.level +'\n';
 };
 
 Game.randomNumber = function randomNumber() {
@@ -72,8 +82,22 @@ Game.runSequence = function() {
 
   setTimeout(function(){
     Game.showSquare(square);
+  }, this.pause);
+};
+
+
+
+Game.runSequence = function() {
+  var sequenceNumber = this.getRandomInt(0, (this.gridBase*this.gridBase-1));
+  var square         = this.squares[sequenceNumber];
+
+  if (square.innerHTML !== '') return this.runSequence();
+
+  setTimeout(function(){
+    Game.showSquare(square);
   }, this.pause * this.getRandomInt(1, 5));
 };
+
 
 Game.showSquare = function showSquare(square){
   square.innerHTML = this.randomNumber();

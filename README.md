@@ -6,6 +6,7 @@
 Random holes, random time, click the mole, get points.
 10 seconds for game.
 
+check if trusted or cheating through javascript
 Need to keep scores, 2 player game, to say who wins.  Use mod 2 to show whose turn it is, swap between players..
 
 Function for generating the interval between pop ups.
