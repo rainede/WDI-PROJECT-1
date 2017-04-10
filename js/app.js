@@ -3,11 +3,13 @@ var Game = Game || {};
 Game.setupGame = function() {
   this.width          = 400;
   this.gridBase       = 4;
-  this.pause          = 500;
+  this.pause          = 1000;
   this.turnCount      = 0;
   this.level          = 2;
   this.timeUp         = false;
+  // this.operator       = '*';
   this.lastSquare     = 0;
+
   this.beenSeen  = [];
 
   this.score          = document.getElementsByClassName('score')[0];
@@ -56,11 +58,12 @@ Game.createGrid = function createGrid() {
 Game.play = function play() {
   this.displayInstructions();
 
-  setInterval(this.runSequence.bind(this), 500);
+  setInterval(this.runSequence.bind(this), this.pause);
 };
 
 Game.displayInstructions = function displayInstructions() {
-  this.message.innerHTML = parseInt(this.level-1)+'. ' +'Choose all of the numbers divisible by ' + this.level + '.'+ '\n\n' +'Get 10 right to move up to the next level!';
+    var operator = document.getElementById('operator').value;
+  this.message.innerHTML = parseInt(this.level-1)+'. ' +'Choose all of the numbers' +document.getElementById('operator').value+  'by ' +this.level+ '.\n\n'
   this.showLevel.innerHTML = this.level-1;
   // this.message.innerHTML += 'Level' + parseInt(this.level-1) +'Choose all of the numbers divisible by ' + this.level +'\n';
 };
@@ -99,40 +102,46 @@ Game.runSequence = function() {
   }
   if (!bContinue) return this.runSequence;
   setTimeout(function(){
+  //   Game.showSquare(square,newValue);
+  // }, this.pause * this.getRandomInt(1, 5));
     Game.showSquare(square,newValue);
-  }, this.pause * this.getRandomInt(1, 5));
+  }, this.pause );
 };
-
 
 Game.showSquare = function showSquare(square, squareValue){
   square.style.color = 'white';
   square.innerHTML = squareValue;
+  // setTimeout(function(){
+  //   square.innerHTML = '';
+  // }, this.pause * this.getRandomInt(1, 5));
   setTimeout(function(){
     square.innerHTML = '';
-  }, this.pause * this.getRandomInt(1, 5));
+  }, this.pause );
 };
 
 Game.selectSquare = function selectSquare() {
   if (this.innerHTML % Game.level === 0) {
     this.style.color = 'green';
+    console.log(parseInt(this.innerHTML),parseInt(Game.level));
+    this.innerHTML = parseInt(this.innerHTML)/(parseInt(Game.level)-1)
     Game.score.innerHTML = parseInt(Game.score.innerHTML) + 1;
   } else {
     this.style.color = 'red';
     console.log(Game.lives.innerHTML);
     Game.lives.innerHTML = parseInt(Game.lives.innerHTML) - 1;
   }
-
-  if (parseInt(Game.lives.innerHTML) === 0) {
-    Game.message.innerHTML = 'GAME OVER';
-    Game.clearSquares();
-  }
-
   if (parseInt(Game.score.innerHTML) % 10 === 0) {
     Game.level++;
     //reset the array
     Game.beenSeen.splice(0,  Game.beenSeen .length);
     Game.displayInstructions();
   }
+  if (parseInt(Game.lives.innerHTML) === 0) {
+    Game.message.innerHTML = 'GAME OVER';
+    Game.clearSquares();
+  }
+
+
 };
 
 Game.clearSquares = function clearSquare() {

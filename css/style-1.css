@@ -1,7 +1,6 @@
 body {
   text-align: center;
-  background: linear-gradient(360deg, grey, green);
-  /*background: url('https://peltjournal.files.wordpress.com/2013/10/bigstock-blank-chalkboard-109848.jpg') no-repeat center center;*/
+  background: url('https://peltjournal.files.wordpress.com/2013/10/bigstock-blank-chalkboard-109848.jpg') no-repeat center center;
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
@@ -40,8 +39,8 @@ main {
 
 .board {
   display: inline-block;
-  background: linear-gradient(360deg, black, grey);
-  /*background: url('http://img04.deviantart.net/dd7c/i/2015/010/0/3/chalkboard_texture_mc2015_by_mattiamc-d8dbnac.jpg') no-repeat center center;*/
+  /*background: linear-gradient(360deg, black, grey);*/
+  background: url('http://img04.deviantart.net/dd7c/i/2015/010/0/3/chalkboard_texture_mc2015_by_mattiamc-d8dbnac.jpg') no-repeat center center;
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
